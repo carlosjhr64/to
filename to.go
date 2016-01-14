@@ -13,7 +13,7 @@ import (
 
 func oops(a, t string) {
   fmt.Fprintf(os.Stderr, "Could not parse \"%s\" as a %s.\n", a, t)
-  os.Exit(70) // Let's call this on a software error... somewhere.
+  os.Exit(70) // Let's call this one a software error... somewhere.
 }
 
 func Date(a string) time.Time {
