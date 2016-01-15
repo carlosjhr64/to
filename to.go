@@ -15,9 +15,15 @@ import (
 type Version string
 const VERSION Version = "0.1.0.alpha"
 
+var PANIC bool = false
 func oops(a, t string) {
-  fmt.Fprintf(os.Stderr, "Could not parse \"%s\" as a %s.\n", a, t)
-  os.Exit(70) // Let's call this one a software error... somewhere.
+  msg := fmt.Sprintf("Could not parse \"%s\" as a %s.", a, t)
+  if PANIC {
+    panic(msg)
+  } else {
+    fmt.Fprintln(os.Stderr, msg)
+    os.Exit(70) // Let's call this one a software error... somewhere.
+  }
 }
 
 func MNBC(v string) (int, int, int, string) {
