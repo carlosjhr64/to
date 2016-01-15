@@ -21,4 +21,8 @@ func TestTO(test *testing.T) {
   d0 := Date("2016-01-14")
   d1 := fmt.Sprintf("%v", d0)
   if d1 != "2016-01-14 00:00:00 +0000 UTC" { bad("Date") }
+
+  major, minor, build, note := VERSION.MNBC()
+  version := fmt.Sprintf("%d.%d.%d.%s", major, minor, build, note)
+  if version != string(VERSION) { bad("MNBC") }
 }

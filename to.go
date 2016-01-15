@@ -8,12 +8,31 @@ import (
   "os"
   "fmt"
   "time"
+  "strings"
   "strconv"
 )
+
+type Version string
+const VERSION Version = "0.1.0.alpha"
 
 func oops(a, t string) {
   fmt.Fprintf(os.Stderr, "Could not parse \"%s\" as a %s.\n", a, t)
   os.Exit(70) // Let's call this one a software error... somewhere.
+}
+
+func MNBC(v string) (int, int, int, string) {
+  a := strings.SplitN(v, ".", 4)
+  if len(a) < 3 { oops(v, "MNBC Version") }
+  major := Int(a[0])
+  minor := Int(a[1])
+  build := Int(a[2])
+  note := "" // or comment
+  if len(a) == 4 { note = a[3] }
+  return major, minor, build, note
+}
+
+func (v Version) MNBC() (int, int, int, string) {
+  return MNBC(string(v))
 }
 
 func Date(a string) time.Time {
