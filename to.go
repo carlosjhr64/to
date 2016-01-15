@@ -13,12 +13,12 @@ import (
 )
 
 type Version string
-const VERSION Version = "0.1.0.alpha"
+const VERSION Version = "0.2.0.alpha"
 
-var PANIC bool = false
+var Panic bool = false
 func oops(a, t string) {
   msg := fmt.Sprintf("Could not parse \"%s\" as a %s.", a, t)
-  if PANIC {
+  if Panic {
     panic(msg)
   } else {
     fmt.Fprintln(os.Stderr, msg)
