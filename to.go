@@ -8,16 +8,14 @@ import (
   "os"
   "fmt"
   "time"
-  "strings"
   "strconv"
 )
 
-type Version string
-const VERSION Version = "0.2.0.alpha"
+const VERSION string = "1.0.0"
 
 var Panic bool = false
-func oops(a, t string) {
-  msg := fmt.Sprintf("Could not parse \"%s\" as a %s.", a, t)
+func Oops(a *string, t string) {
+  msg := fmt.Sprintf("Could not parse \"%s\" as a %s.", *a, t)
   if Panic {
     panic(msg)
   } else {
@@ -26,45 +24,30 @@ func oops(a, t string) {
   }
 }
 
-func MNBC(v string) (int, int, int, string) {
-  a := strings.SplitN(v, ".", 4)
-  if len(a) < 3 { oops(v, "MNBC Version") }
-  major := Int(a[0])
-  minor := Int(a[1])
-  build := Int(a[2])
-  note := "" // or comment
-  if len(a) == 4 { note = a[3] }
-  return major, minor, build, note
-}
-
-func (v Version) MNBC() (int, int, int, string) {
-  return MNBC(string(v))
-}
-
-func Date(a string) time.Time {
-  t, e := time.Parse("2006-01-02", a)
-  if e!= nil { oops(a, "Date") }
+func Date(a *string) time.Time {
+  t, e := time.Parse("2006-01-02", *a)
+  if e!= nil { Oops(a, "Date") }
   return t
 }
 
-func Int(a string) int {
-  i, e :=  strconv.Atoi(a)
-  if e != nil { oops(a, "Int") }
+func Int(a *string) int {
+  i, e :=  strconv.Atoi(*a)
+  if e != nil { Oops(a, "Int") }
   return i
 }
 
-func Float(a string) float64 {
-  f, e := strconv.ParseFloat(a, 64)
-  if e != nil { oops(a, "Float") }
+func Float(a *string) float64 {
+  f, e := strconv.ParseFloat(*a, 64)
+  if e != nil { Oops(a, "Float") }
   return f
 }
 
-func Bool(a string) bool {
+func Bool(a *string) bool {
   b := false
-  if a == "true" {
+  if *a == "true" {
     b = true
-  } else if a != "false" {
-    oops(a, "Bool")
+  } else if *a != "false" {
+    Oops(a, "Bool")
   }
   return b
 }

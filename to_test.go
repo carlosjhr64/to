@@ -5,24 +5,26 @@ import "fmt"
 
 func TestTO(test *testing.T) {
   var bad = test.Error
+  var v string
 
-  q := Float("1.23")
+  v = "1.23"
+  q := Float(&v)
   if q != 1.23 { bad("Float") }
 
-  i := Int("123")
+  v = "123"
+  i := Int(&v)
   if i != 123 { bad("Int") }
 
-  t := Bool("true")
+  v = "true"
+  t := Bool(&v)
   if t != true { bad("Bool true") }
 
-  f := Bool("false")
+  v = "false"
+  f := Bool(&v)
   if f != false { bad("Bool false") }
 
-  d0 := Date("2016-01-14")
+  v = "2016-01-14"
+  d0 := Date(&v)
   d1 := fmt.Sprintf("%v", d0)
   if d1 != "2016-01-14 00:00:00 +0000 UTC" { bad("Date") }
-
-  major, minor, build, note := VERSION.MNBC()
-  version := fmt.Sprintf("%d.%d.%d.%s", major, minor, build, note)
-  if version != string(VERSION) { bad("MNBC") }
 }
